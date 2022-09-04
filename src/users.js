@@ -160,7 +160,7 @@ function processUsersData(data) {
             .map((play) => play.hit_length)
             .filter((hit_length) => hit_length)
         )
-      );
+      ) / 86400;
 
     var summaryUserData = {
       username: userData.username,
