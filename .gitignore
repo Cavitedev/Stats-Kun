@@ -1,0 +1,8 @@
+.env
+node_modules
+.rest
+sonar-project.properties
+.scannerwork
+.vscode
+*.bat
+reports
