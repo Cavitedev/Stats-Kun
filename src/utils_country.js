@@ -695,7 +695,7 @@ const countriesData = {
       "https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/GY.svg",
   },
   HK: {
-    name: "Hong Kong SAR China",
+    name: "Hong Kong",
     emoji: "🇭🇰",
     unicode: "U+1F1ED U+1F1F0",
     image:

@@ -166,6 +166,7 @@ function processUsersData(data) {
       weightedCS: weightedCS,
       weightedLength: weightedLength,
       country: countryName,
+      flag: countryData.image
     };
 
     summaryUsersData.push(summaryUserData);
