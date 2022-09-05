@@ -43,6 +43,7 @@ con.connect(function (err) {
               globalRank: row.rank_score_index,
               pp: row.user_pp,
               acc: row.accuracy,
+              country_acronym: row.country_acronym,
             };
 
             user_id = row.user_id;

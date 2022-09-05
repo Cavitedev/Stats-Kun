@@ -1,5 +1,6 @@
 var utils = require("./utils");
 var modUtils = require("./mods");
+var countryUtils = require("./utils_country");
 
 function processUsersData(data) {
   var summaryUsersData = [];
@@ -7,7 +8,10 @@ function processUsersData(data) {
   for (var userData of data) {
     let id = userData.user_id;
     let pp = userData.pp;
-    let acc = `${(userData.acc * 100).toFixed(2)}%`;
+    let acc = `${userData.acc.toFixed(2)}%`;
+
+    let countryData = countryUtils.getDataFromCountryCode(userData.country_acronym);
+    let countryName = `${countryData.emoji} (${countryData.name})`;
 
     for (var play of userData.scores) {
       var beatmapId = play.beatmap_id;
@@ -72,42 +76,42 @@ function processUsersData(data) {
       // PP recalculation
       ar = utils.msToAr(arMs);
 
-      let comboPenalty = Math.pow(playCombo / mapCombo, 0.8);
-      let accPenalty = Math.pow(acc, 5.5);
-      let missPenalty = Math.pow(0.97, fruitsAndDrops);
+      // let comboPenalty = Math.pow(playCombo / mapCombo, 0.8);
+      // let accPenalty = Math.pow(acc, 5.5);
+      // let missPenalty = Math.pow(0.97, fruitsAndDrops);
 
-      let lengthBonus = 0.95 + 0.3 * Math.min(1, mapCombo / 2500);
-      if (mapCombo > 2500) lengthBonus += Math.log10(mapCombo / 2500) * 0.475;
+      // let lengthBonus = 0.95 + 0.3 * Math.min(1, mapCombo / 2500);
+      // if (mapCombo > 2500) lengthBonus += Math.log10(mapCombo / 2500) * 0.475;
 
-      let flBonus = hasFL ? 1.35 * lengthBonus : 1;
-      let hdBonus = hasHD
-        ? ar > 10
-          ? 1.01 + 0.04 * (11 - ar)
-          : 1.05 + 0.075 * (10 - ar)
-        : 1;
-      let arBonus =
-        ar > 9
-          ? 1 + 0.1 * (ar - 9)
-          : ar > 10
-          ? 1.1 + 0.2 * (ar - 10)
-          : ar < 8
-          ? 1 + 0.025 * (8 - ar)
-          : 1;
+      // let flBonus = hasFL ? 1.35 * lengthBonus : 1;
+      // let hdBonus = hasHD
+      //   ? ar > 10
+      //     ? 1.01 + 0.04 * (11 - ar)
+      //     : 1.05 + 0.075 * (10 - ar)
+      //   : 1;
+      // let arBonus =
+      //   ar > 9
+      //     ? 1 + 0.1 * (ar - 9)
+      //     : ar > 10
+      //     ? 1.1 + 0.2 * (ar - 10)
+      //     : ar < 8
+      //     ? 1 + 0.025 * (8 - ar)
+      //     : 1;
 
-      let product =
-        arBonus *
-        hdBonus *
-        flBonus *
-        lengthBonus *
-        missPenalty *
-        accPenalty *
-        comboPenalty;
+      // let product =
+      //   arBonus *
+      //   hdBonus *
+      //   flBonus *
+      //   lengthBonus *
+      //   missPenalty *
+      //   accPenalty *
+      //   comboPenalty;
 
-      var sr = (0.0049 * (4 + Math.pow(100000 * (pp / product), 0.5))) / 5;
+      // var sr = (0.0049 * (4 + Math.pow(100000 * (pp / product), 0.5))) / 5;
 
-      pp =
-        (Math.pow((5 * sr) / 0.0049 - 4, 2) / 100000) *
-        (arBonus * hdBonus * flBonus * lengthBonus);
+      // pp =
+      //   (Math.pow((5 * sr) / 0.0049 - 4, 2) / 100000) *
+      //   (arBonus * hdBonus * flBonus * lengthBonus);
 
       arMs = utils.arToMs(ar);
 
@@ -123,26 +127,16 @@ function processUsersData(data) {
 
       ar = utils.msToAr(arMs);
 
-      userData.scores;
-
-      //   return [
-      //     [
-      //       id,
-      //       pp,
-      //       acc,
-      //       Number(weightedSR),
-      //       Number(weightedCS),
-      //       Number(weightedAR),
-      //       Number(weightedLength),
-      //     ],
-      //   ];
+      play.ar = ar;
+      play.cs = cs;
+      play.length = length;
     }
 
     let weightedSR = utils.getWeightedValue(
       userData.scores
         .map((play) => play.sr)
         .sort((a, b) => b - a)
-        .filter((sr) => sr)
+        .filter((ar) => ar)
     );
     let weightedAR = utils.getWeightedValue(
       userData.scores
@@ -171,6 +165,7 @@ function processUsersData(data) {
       weightedAR: weightedAR,
       weightedCS: weightedCS,
       weightedLength: weightedLength,
+      country: countryName,
     };
 
     summaryUsersData.push(summaryUserData);
