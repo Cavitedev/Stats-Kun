@@ -6,7 +6,7 @@ where attrib_id = 1);
 create or replace view beatmap_data as (select beatmap_id, beatmapset_id, hit_length, ROUND(diff_drain,1) hp, ROUND(diff_size,1)  cs, ROUND(diff_overall,1) od, ROUND(diff_approach,1) ar, bpm, countTotal map_max_combo
 from osu_beatmaps ob);
 
-create or replace view users_simple as (select us.user_id, us.rank_score_index, rank_score user_pp, username, accuracy 
+create or replace view users_simple as (select us.user_id, us.rank_score_index, rank_score user_pp, username, accuracy_new accuracy, country_acronym
   FROM osu_user_stats_fruits AS us
   JOIN sample_users AS u ON us.user_id = u.user_id)
 
