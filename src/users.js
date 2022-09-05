@@ -14,7 +14,6 @@ function processUsersData(data) {
     let countryName = `${countryData.emoji} (${countryData.name})`;
 
     for (var play of userData.scores) {
-      var beatmapId = play.beatmap_id;
       var modId = play.mods;
       var mods = modUtils.getModAcronyms(modUtils.getMods(modId));
 
@@ -22,25 +21,6 @@ function processUsersData(data) {
       var ar = play.ar;
       var cs = play.cs;
       var length = play.hit_length;
-      var mapCombo = play.map_max_combo;
-
-      // Play stats
-      let pp = play.pp;
-      var playCombo = play.maxCombo;
-
-      var fruitsCaught = play.count300;
-      var dropsCaught = play.count100;
-      var dropletsCaught = play.count50;
-      var fruitsAndDrops = play.countmiss;
-      var droplets = play.countkatu;
-
-      let acc =
-        (fruitsCaught + dropsCaught + dropletsCaught) /
-        (fruitsCaught +
-          dropsCaught +
-          dropletsCaught +
-          fruitsAndDrops +
-          droplets);
 
       let arMs;
       let hasHD = mods.includes("HD");
