@@ -109,7 +109,7 @@ function processUsersData(data) {
 
       play.ar = ar;
       play.cs = cs;
-      play.length = length;
+      play.hit_length = length;
     }
 
     let weightedSR = utils.getWeightedValue(
