@@ -42,7 +42,7 @@ create or replace view users_simple as (select us.user_id, us.rank_score_index, 
   JOIN sample_users AS u ON us.user_id = u.user_id)
 
 
-  create or replace view beatmap_data as (select beatmap_id, beatmapset_id, hit_length, ROUND(diff_drain,1) hp, ROUND(diff_size,1)  cs, ROUND(diff_overall,1) od, bpm
+create or replace view beatmap_data as (select beatmap_id, beatmapset_id, hit_length, ROUND(diff_drain,1) hp, ROUND(diff_size,1)  cs, ROUND(diff_overall,1) od, ROUND(diff_approach,1) ar, bpm
 from osu_beatmaps ob);
 
 create or replace view simple_beatmap_diff as (select beatmap_id, mods, value sr
