@@ -3,7 +3,7 @@ var users = require("./users");
 
 var time_start = new Date().getTime();
 
-console.log("Start time: " + time_start);
+console.log("Start time: " + new Date(time_start).toISOString());
 
 var con = mysql.createConnection({
   host: "localhost",
