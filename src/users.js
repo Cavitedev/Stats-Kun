@@ -10,7 +10,9 @@ function processUsersData(data) {
     let pp = userData.pp;
     let acc = `${userData.acc.toFixed(2)}%`;
 
-    let countryData = countryUtils.getDataFromCountryCode(userData.country_acronym);
+    let countryData = countryUtils.getDataFromCountryCode(
+      userData.country_acronym
+    );
     let countryName = `${countryData.emoji} (${countryData.name})`;
 
     for (var play of userData.scores) {
@@ -23,8 +25,6 @@ function processUsersData(data) {
       var length = play.hit_length;
 
       let arMs;
-      let hasHD = mods.includes("HD");
-      let hasFL = mods.includes("FL");
 
       if (mods.includes("EZ")) {
         cs = cs / 2;
@@ -39,63 +39,15 @@ function processUsersData(data) {
       arMs = utils.arToMs(ar);
 
       if (mods.includes("DT") && !mods.includes("FL")) {
-        arMs *= 2 / 3;
-        // if (ar <= 5) ar = Math.min((1800 - ((1800 - ar * 120) * 2 / 3)) / 120, 11);
-        // else ar = Math.min(((1200 - ((1200 - (ar - 5) * 150) * 2 / 3)) / 150) + 5, 11);
+        arMs *= 0.6666666667;
         length = length / 1.5;
       }
 
       if (mods.includes("HT")) {
-        arMs *= 3 / 2;
-        // if (ar > 7) ar = (1 + (1 / 3)) * ar - (4 + (1 / 3));
-        // else if (ar <= 7 && ar > 5) ar = (1 + (2 / 3)) * ar - (6 + (2 / 3))
-        // else if (ar <= 5) ar = ((1 + (1 / 3)) * ar - 5);
-        length = length * 1.5;
+        arMs *= 1.3333333333333333;
+        length = length / 0.75;
       }
 
-      // PP recalculation
-      ar = utils.msToAr(arMs);
-
-      // let comboPenalty = Math.pow(playCombo / mapCombo, 0.8);
-      // let accPenalty = Math.pow(acc, 5.5);
-      // let missPenalty = Math.pow(0.97, fruitsAndDrops);
-
-      // let lengthBonus = 0.95 + 0.3 * Math.min(1, mapCombo / 2500);
-      // if (mapCombo > 2500) lengthBonus += Math.log10(mapCombo / 2500) * 0.475;
-
-      // let flBonus = hasFL ? 1.35 * lengthBonus : 1;
-      // let hdBonus = hasHD
-      //   ? ar > 10
-      //     ? 1.01 + 0.04 * (11 - ar)
-      //     : 1.05 + 0.075 * (10 - ar)
-      //   : 1;
-      // let arBonus =
-      //   ar > 9
-      //     ? 1 + 0.1 * (ar - 9)
-      //     : ar > 10
-      //     ? 1.1 + 0.2 * (ar - 10)
-      //     : ar < 8
-      //     ? 1 + 0.025 * (8 - ar)
-      //     : 1;
-
-      // let product =
-      //   arBonus *
-      //   hdBonus *
-      //   flBonus *
-      //   lengthBonus *
-      //   missPenalty *
-      //   accPenalty *
-      //   comboPenalty;
-
-      // var sr = (0.0049 * (4 + Math.pow(100000 * (pp / product), 0.5))) / 5;
-
-      // pp =
-      //   (Math.pow((5 * sr) / 0.0049 - 4, 2) / 100000) *
-      //   (arBonus * hdBonus * flBonus * lengthBonus);
-
-      arMs = utils.arToMs(ar);
-
-      // Effective AR calculation for FL
       if (mods.includes("FL")) {
         if (mods.includes("DT")) {
           arMs *= 8 / 15;

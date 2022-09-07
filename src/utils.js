@@ -11,9 +11,13 @@ function getWeightedValue(allValues) {
 }
 
 function msToAr(ms) {
-  return ms >= 1200
-    ? (-5 * (ms - 1200)) / 600 + 5
-    : (5 * (1200 - ms)) / 750 + 5;
+  return Math.max(
+    Math.min(
+      ms >= 1200 ? (-5 * (ms - 1200)) / 600 + 5 : (5 * (1200 - ms)) / 750 + 5,
+      11
+    ),
+    0
+  );
 }
 
 function arToMs(ar) {
