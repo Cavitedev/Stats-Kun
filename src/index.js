@@ -1,15 +1,15 @@
 var mysql = require("mysql");
 var users = require("./users");
-
+require("dotenv").config();
 var time_start = new Date().getTime();
 
 console.log("Start time: " + new Date(time_start).toISOString());
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "ROOT",
-  database: "osu",
+  host: process.env.DBhost,
+  user: process.env.DBuser,
+  password: process.env.DBpassword,
+  database: process.env.DBdatabase,
 });
 
 con.connect(function (err) {

@@ -6,3 +6,5 @@ sonar-project.properties
 .vscode
 *.bat
 reports
+
+data/*
