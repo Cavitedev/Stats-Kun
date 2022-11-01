@@ -1,3 +1,5 @@
+
+
 CREATE INDEX pp_index ON osu_scores_fruits_high (pp);
 create or replace INDEX user_index ON osu_scores_fruits_high (user_id);
 CREATE INDEX mods_index ON osu_scores_fruits_high (enabled_mods);
@@ -17,7 +19,7 @@ where x.pp = x.best_pp);
 
 
 
-drop table top100scores;
+drop table if exists top100scores;
 
 create table top100Scores as select score_id, beatmap_id, user_id, enabled_mods, pp,  rank_pos
 from 
@@ -29,11 +31,13 @@ from
 ) as x
 where rank_pos <= 100;
 
+-- Optimize for next querie
 CREATE INDEX beatmap_id_index ON top100Scores (beatmap_id);
 CREATE INDEX user_id_index ON top100Scores (user_id);
 /
 
-select * from top100scores ts;
+-- To test if the top100 scores are right
+-- select * from top100scores ts;
 
 
 
@@ -49,7 +53,7 @@ create or replace view simple_beatmap_diff as (select beatmap_id, mods, value sr
 from osu_beatmap_difficulty_attribs obda
 where attrib_id = 1);
 
-
+-- See if the data seems right
 SELECT * 
   FROM users_simple as ud
   JOIN top100scores s on s.user_id = ud.user_id
