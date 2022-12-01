@@ -1,7 +1,7 @@
 
 
 CREATE INDEX pp_index ON osu_scores_fruits_high (pp);
-create or replace INDEX user_index ON osu_scores_fruits_high (user_id);
+CREATE INDEX user_index ON osu_scores_fruits_high (user_id);
 CREATE INDEX mods_index ON osu_scores_fruits_high (enabled_mods);
 
 create or replace view best_scores_per_map as (
