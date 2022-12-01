@@ -79,10 +79,10 @@ con.connect(function (err) {
       userData.scores = scoresData;
       usersData.push(userData);
 
-      console.log(usersData);
+      // console.log(usersData);
 
       const filteredData = users.processUsersData(usersData);
-      console.log(filteredData);
+      // console.log(filteredData);
 
       var time_exec = new Date().getTime();
 
