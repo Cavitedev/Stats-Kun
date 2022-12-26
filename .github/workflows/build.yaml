@@ -26,11 +26,11 @@ jobs:
         with:
           mysql-version: 10.9
           distribution: mariadb
-          root-password: $DBpassword
+          root-password: ${DBpassword}
       - name: show databases
-        run: mysql --user=root -h127.0.0.1 --password=$DBpassword -e "show databases;"    
+        run: mysql --user=root -h127.0.0.1 --password=${DBpassword} -e "show databases;"    
       - name: show grants root
-        run: mysql --user=root -h127.0.0.1 --password=$DBpassword -e "show grants;"        
+        run: mysql --user=root -h127.0.0.1 --password=${DBpassword} -e "show grants;"        
       - name: grant privileges
         run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword -e "GRANT ALL PRIVILEGES ON *.* TO '${DBuser}'@'localhost' IDENTIFIED BY $DBpassword WITH GRANT OPTION;"
       - name: show grants
