@@ -40,6 +40,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: Install dependencies
+        run: npm ci
       - name: Create data dir
         run: mkdir -p data/ctb    
       - name: Loading data
@@ -60,7 +62,7 @@ jobs:
       - run: mysql -h 127.0.0.1 -uroot  -ppassword -D osu -e "source data/ctb/osu_scores_fruits_high.sql"
 
       - name: Structure database for later querying
-        run: mysql -h 127.0.0.1 -uroot  -ppassword -D osu -e "source queries/queries.sql" 
+        run: mysql -h 127.0.0.1 -uroot  -ppassword -D osu -e "source queries/queries.sql"
       - name: Build users.json
         run: npm run start
       - name: Update repository
