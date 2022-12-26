@@ -21,16 +21,52 @@ jobs:
         with:
           mask-variables: false
 
-      - name: actions-setup-mysql
+      - name: actions-setup-mariadb
         uses: shogo82148/actions-setup-mysql@v1.14.1
         with:
           mysql-version: 10.9
           distribution: mariadb
-          root-password: password
-      - name: show databases
-        run: mysql -h127.0.0.1 -uroot  -ppassword -e "show databases;"    
-      - name: show grants root
-        run: mysql -h127.0.0.1 -uroot  -ppassword -e "show grants;"               
+          root-password: password               
       - name: Create database
         run: mysql -h127.0.0.1 -uroot  -ppassword -e "CREATE DATABASE osu;"
+      - name: show databases
+        run: mysql -h127.0.0.1 -uroot  -ppassword -e "show databases;"
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Create data dir
+        run: mkdir -p data/ctb    
+      - name: Store date and month for fetching current data
+        run: NOW=$(date +"%Y_%m")
+      - name: Loading data
+        run: curl "https://data.ppy.sh/${NOW}_01_performance_catch_top_1000.tar.bz2" -o data/ctb.tar.bz2
+      - name: Install dependency to unzip
+        run: sudo apt install bzip2 -y
+      - name: Unzip data
+        run: bzip2 -d data/ctb.tar.bz2
+      - name: Extract data
+        run: tar -xvf data/ctb.tar -C data/ctb --strip-components=1
+      - name: Replace collate in sql due to incompatibility with mariaDB
+        run: sed -i "s/COLLATE=utf8mb4_0900_ai_ci//g" data/ctb/sample_users.sql
+      - name: Import tables
+        run: mysql -h 127.0.0.1 -uroot  -ppassword -D osu -e "source data/ctb/sample_users.sql"
+      - run: mysql -h 127.0.0.1 -uroot  -ppassword -D osu -e "source data/ctb/osu_user_stats_fruits.sql"
+      - run: mysql -h 127.0.0.1 -uroot  -ppassword -D osu -e "source data/ctb/osu_beatmaps.sql"
+      - run: mysql -h 127.0.0.1 -uroot  -ppassword -D osu -e "source data/ctb/osu_beatmap_difficulty_attribs.sql"
+      - run: mysql -h 127.0.0.1 -uroot  -ppassword -D osu -e "source data/ctb/osu_scores_fruits_high.sql"
+
+      - name: Structure database for later querying
+        run: mysql -h 127.0.0.1 -uroot  -ppassword -D osu -e "source queries/queries.sql" 
+      - name: Build users.json
+        run: npm run start
+      - name: Update repository
+      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+        with:
+          author_name: Cavitedev_action
+          author_email: carlosvillorat@gmail.com
+          message: "${NOW} Update users.json"
+          tag: "${NOW}"
+      
+
 
