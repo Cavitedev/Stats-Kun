@@ -2,8 +2,8 @@
 name: Load osu players data and upload to stats calculation sheet
 
 on:
-  push:
-    branches: [automatization]
+  schedule:
+    - cron:  '21 12 1 * *'
     
 jobs:
   build_stats:
@@ -45,7 +45,7 @@ jobs:
       - name: Create data dir
         run: mkdir -p data/ctb    
       - name: Loading data
-        run: curl "https://data.ppy.sh/${{env.NOW}}_01_performance_catch_top_1000.tar.bz2" -o data/ctb.tar.bz2
+        run: curl "https://data.ppy.sh/${{env.NOW}}_01_performance_catch_top_10000.tar.bz2" -o data/ctb.tar.bz2
       - name: Install dependency to unzip
         run: sudo apt install bzip2 -y
       - name: Unzip data
