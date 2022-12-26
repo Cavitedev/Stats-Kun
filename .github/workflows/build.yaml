@@ -29,6 +29,6 @@ jobs:
           root-password: $DBpassword
           user: $DBuser
           password: $DBpassword
-      - name: Log into database
-        run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword -e 'SELECT VERSION();'
+      - name: Create database
+        run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword -e 'CREATE DATABASE ${DBdatabase}'
 
