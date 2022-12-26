@@ -32,7 +32,11 @@ jobs:
       - name: show databases
         run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword -e "show databases;"    
       - name: show grants
-        run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword -e "show grants;"  
+        run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword -e "show grants;"
+      - name: grant privileges
+        run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword -e "GRANT ALL PRIVILEGES ON *.* TO '${DBuser}'@'localhost' IDENTIFIED BY $DBpassword WITH GRANT OPTION;"
+      - name: show grants
+        run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword -e "show grants;"        
       - name: Create database
         run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword -e "CREATE DATABASE osu"
 
