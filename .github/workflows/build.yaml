@@ -30,6 +30,6 @@ jobs:
           user: $DBuser
           password: $DBpassword
       - name: Log into database
-        run: mysql -uroot -h127.0.0.1 -p$DBpassword
+        run: mysql -u$DBuser -h127.0.0.1 --password=$DBpassword
       - run: show database;
 
