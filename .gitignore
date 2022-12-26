@@ -8,3 +8,4 @@ sonar-project.properties
 reports
 
 data/*
+extra/*

@@ -1,5 +1,3 @@
-
-
 CREATE INDEX pp_index ON osu_scores_fruits_high (pp);
 CREATE INDEX user_index ON osu_scores_fruits_high (user_id);
 -- CREATE INDEX mods_index ON osu_scores_fruits_high (enabled_mods);
@@ -16,12 +14,9 @@ from (
 where x.pp = x.best_pp);
 
 
+drop table if exists top100Scores;
 
-
-
-drop table if exists top100scores;
-
-create table top100Scores as select score_id, beatmap_id, user_id, enabled_mods, pp,  rank_pos
+create table top100Scores as select score_id, beatmap_id, user_id, enabled_mods, pp, rank_pos
 from 
 (
    select score_id,  beatmap_id , user_id, enabled_mods, pp,
@@ -34,7 +29,7 @@ where rank_pos <= 100;
 -- Optimize for next querie
 CREATE INDEX beatmap_id_index ON top100Scores (beatmap_id);
 CREATE INDEX user_id_index ON top100Scores (user_id);
-/
+
 
 -- To test if the top100 scores are right
 -- select * from top100scores ts;
@@ -43,7 +38,7 @@ CREATE INDEX user_id_index ON top100Scores (user_id);
 
 create or replace view users_simple as (select us.user_id, us.rank_score_index, rank_score user_pp, username, accuracy_new accuracy, country_acronym
   FROM osu_user_stats_fruits AS us
-  JOIN sample_users AS u ON us.user_id = u.user_id)
+  JOIN sample_users AS u ON us.user_id = u.user_id);
 
 
 create or replace view beatmap_data as (select beatmap_id, beatmapset_id, hit_length, ROUND(diff_drain,1) hp, ROUND(diff_size,1)  cs, ROUND(diff_overall,1) od, ROUND(diff_approach,1) ar, bpm
@@ -56,9 +51,10 @@ where attrib_id = 1);
 -- See if the data seems right
 SELECT * 
   FROM users_simple as ud
-  JOIN top100scores s on s.user_id = ud.user_id
+  JOIN top100Scores s on s.user_id = ud.user_id
   JOIN beatmap_data bd on s.beatmap_id = bd.beatmap_id
   JOIN simple_beatmap_diff bdiff on s.beatmap_id = bdiff.beatmap_id and (s.enabled_mods & 338) = bdiff.mods
   ORDER BY ud.user_pp  desc, ud.user_id, rank_pos
+  LIMIT 200
   ;
  

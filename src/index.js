@@ -17,7 +17,7 @@ con.connect(function (err) {
   con.query(
     `SELECT * 
     FROM users_simple as ud
-    JOIN top100scores s on s.user_id = ud.user_id
+    JOIN top100Scores s on s.user_id = ud.user_id
     JOIN beatmap_data bd on s.beatmap_id = bd.beatmap_id
     JOIN simple_beatmap_diff bdiff on s.beatmap_id = bdiff.beatmap_id and (s.enabled_mods & 338) = bdiff.mods
     ORDER BY ud.user_pp desc, ud.user_id, rank_pos  
@@ -94,6 +94,13 @@ con.connect(function (err) {
         "Execution time: " +
           new Date(time_exec - time_start).toISOString().slice(14, 19)
       );
+
+      con.end(function(err) {
+        if (err) {
+          return console.log('error:' + err.message);
+        }
+        console.log('Close the database connection.');
+      });
 
       // let jsonString = JSON.stringify(usersData);
 
