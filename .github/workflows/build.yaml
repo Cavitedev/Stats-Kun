@@ -9,17 +9,27 @@ jobs:
   build_stats:
     environment: release
     runs-on: ubuntu-latest
+    env:
+      Env: ${{ secrets.ENV }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2  
-      - name: gsheet.action
-        uses: jroehl/gsheet.action@v1.1.0
+      - name: Create .env file
+        run: echo "$Env" | base64 -d > ./.env
+      - name: Dotenv Action
+        uses: falti/dotenv-action@v1.0.2
         with:
-          spreadsheetId: ${{ secrets.SPREADSHEET_ID }}
-          commands: |
-            [
-              { "command": "addWorksheet", "args": { "worksheetTitle": "test" }}
-            ]
-        env:
-          GSHEET_CLIENT_EMAIL: ${{secrets.GSHEET_CLIENT_EMAIL}}
-          GSHEET_PRIVATE_KEY: ${{secrets.GSHEET_PRIVATE_KEY}}
+          mask-variables: true
+
+      - name: actions-setup-mysql
+        uses: shogo82148/actions-setup-mysql@v1.14.1
+        with:
+          mysql-version: 10.9
+          distribution: mariadb
+          root-password: DBpassword
+          user: $DBuser
+          password: $DBpassword
+      - name: Get database version
+      - run: mysql -uroot -h127.0.0.1 -e 'SELECT version()'
+      - name: Create osu database
+      - run: mysql -uroot -h127.0.0.1 -e 'CREATE DATABASE osu'
