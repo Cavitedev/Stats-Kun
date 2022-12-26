@@ -39,6 +39,8 @@ jobs:
         run: mkdir -p data/ctb    
       - name: Store date and month for fetching current data
         run: NOW=$(date +"%Y_%m")
+      - name: Display current month
+        run: echo "${NOW}"
       - name: Loading data
         run: curl "https://data.ppy.sh/${NOW}_01_performance_catch_top_1000.tar.bz2" -o data/ctb.tar.bz2
       - name: Install dependency to unzip
