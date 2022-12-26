@@ -26,9 +26,9 @@ jobs:
         with:
           mysql-version: 10.9
           distribution: mariadb
-          root-password: ${DBpassword}
+          root-password: password
       - name: show databases
-        run: mysql --user=root -h127.0.0.1 --password=${DBpassword} -e "show databases;"    
+        run: mysql -h127.0.0.1 -uroot  -ppassword -e "show databases;"    
       - name: show grants root
         run: mysql --user=root -h127.0.0.1 --password=${DBpassword} -e "show grants;"        
       - name: grant privileges
