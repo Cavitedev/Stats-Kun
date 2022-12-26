@@ -1,1 +1,26 @@
 
+name: Build apk and upload to github
+
+on:
+  push:
+    branches: [automatization]
+    
+jobs:
+  build_apk:
+    environment: release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2  
+      - name: gsheet.action
+        uses: jroehl/gsheet.action@v1.1.0
+        with:
+          spreadsheetId: "1dEBMuVi_8KqIAewzHTH8ZC3t0ZQpkIHAX8v7p2KUTIY"
+          commands: |
+            [
+              { "command": "addWorksheet", "args": { "worksheetTitle": "test" }}
+            ]
+        env:
+          GSHEET_CLIENT_EMAIL: ${{secrets.GSHEET_CLIENT_EMAIL}}
+          GSHEET_PRIVATE_KEY: ${{secrets.GSHEET_PRIVATE_KEY}}
