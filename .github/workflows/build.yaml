@@ -20,11 +20,11 @@ jobs:
         uses: falti/dotenv-action@v1.0.2
         with:
           mask-variables: false
-      - run: echo "(date +"%Y_%m")"
+      - run: (date +"%Y_%m")
       - name: Store date and month for fetching current data
-        run: echo "(date +"%Y_%m")" >> $GITHUB_OUTPUT
+        run: (date +"%Y_%m") >> $GITHUB_ENV
       - name: Display current date
-        run: echo "${{steps.version.outputs.NOW}}"
+        run: echo "${{env.NOW}}"
 
       - name: actions-setup-mariadb
         uses: shogo82148/actions-setup-mysql@v1.14.1
@@ -43,7 +43,7 @@ jobs:
       - name: Create data dir
         run: mkdir -p data/ctb    
       - name: Loading data
-        run: curl "https://data.ppy.sh/${{steps.version.outputs.NOW}}_01_performance_catch_top_1000.tar.bz2" -o data/ctb.tar.bz2
+        run: curl "https://data.ppy.sh/${{env.NOW}}_01_performance_catch_top_1000.tar.bz2" -o data/ctb.tar.bz2
       - name: Install dependency to unzip
         run: sudo apt install bzip2 -y
       - name: Unzip data
