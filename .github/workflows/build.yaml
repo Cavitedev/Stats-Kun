@@ -1,5 +1,5 @@
 
-name: Build apk and upload to github
+name: Load osu players data and upload to stats calculation sheet
 
 on:
   push:
@@ -9,7 +9,6 @@ jobs:
   build_apk:
     environment: release
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2  
