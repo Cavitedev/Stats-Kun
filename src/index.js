@@ -95,6 +95,13 @@ con.connect(function (err) {
           new Date(time_exec - time_start).toISOString().slice(14, 19)
       );
 
+      con.end(function(err) {
+        if (err) {
+          return console.log('error:' + err.message);
+        }
+        console.log('Close the database connection.');
+      });
+
       // let jsonString = JSON.stringify(usersData);
 
       // var fs = require("fs");
