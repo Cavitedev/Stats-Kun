@@ -29,6 +29,8 @@ jobs:
           root-password: $DBpassword
           user: $DBuser
           password: $DBpassword
+      - name: show databases
+        run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword -e "show databases;"    
       - name: Create database
         run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword -e "CREATE DATABASE osu"
 
