@@ -2,6 +2,7 @@
 name: Load osu players data and upload to stats calculation sheet
 
 on:
+  workflow_dispatch:
   schedule:
     - cron:  '21 12 1 * *'
     
