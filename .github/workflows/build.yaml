@@ -19,7 +19,7 @@ jobs:
       - name: Dotenv Action
         uses: falti/dotenv-action@v1.0.2
         with:
-          mask-variables: true
+          mask-variables: false
 
       - name: actions-setup-mysql
         uses: shogo82148/actions-setup-mysql@v1.14.1
@@ -30,6 +30,5 @@ jobs:
           user: $DBuser
           password: $DBpassword
       - name: Log into database
-        run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword
-      - run: show database;
+        run: mysql --user=$DBuser -h127.0.0.1 --password=$DBpassword -e 'SELECT VERSION();'
 
