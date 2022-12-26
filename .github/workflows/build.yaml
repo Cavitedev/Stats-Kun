@@ -30,6 +30,6 @@ jobs:
           user: $DBuser
           password: $DBpassword
       - name: Get database version
-      - run: mysql -uroot -h127.0.0.1 -e 'SELECT version()'
+        run: mysql -uroot -h127.0.0.1 -e 'SELECT version()'
       - name: Create osu database
-      - run: mysql -uroot -h127.0.0.1 -e 'CREATE DATABASE osu'
+        run: mysql -uroot -h127.0.0.1 -e 'CREATE DATABASE osu'
