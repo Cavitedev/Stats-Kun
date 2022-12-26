@@ -20,9 +20,9 @@ jobs:
         uses: falti/dotenv-action@v1.0.2
         with:
           mask-variables: false
-      - run: (date +"%Y_%m")
+      - run: echo "NOW=$(date +"%Y_%m")"
       - name: Store date and month for fetching current data
-        run: (date +"%Y_%m") >> $GITHUB_ENV
+        run: echo "NOW=$(date +"%Y_%m")" >> $GITHUB_ENV
       - name: Display current date
         run: echo "${{env.NOW}}"
 
