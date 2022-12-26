@@ -1,5 +1,3 @@
-
-
 CREATE INDEX pp_index ON osu_scores_fruits_high (pp);
 CREATE INDEX user_index ON osu_scores_fruits_high (user_id);
 -- CREATE INDEX mods_index ON osu_scores_fruits_high (enabled_mods);
@@ -16,12 +14,9 @@ from (
 where x.pp = x.best_pp);
 
 
+drop table if exists top100Scores;
 
-
-
-drop table if exists top100scores;
-
-create table top100Scores as select score_id, beatmap_id, user_id, enabled_mods, pp,  rank_pos
+create table top100Scores as select score_id, beatmap_id, user_id, enabled_mods, pp, rank_pos
 from 
 (
    select score_id,  beatmap_id , user_id, enabled_mods, pp,
@@ -56,7 +51,7 @@ where attrib_id = 1);
 -- See if the data seems right
 SELECT * 
   FROM users_simple as ud
-  JOIN top100scores s on s.user_id = ud.user_id
+  JOIN top100Scores s on s.user_id = ud.user_id
   JOIN beatmap_data bd on s.beatmap_id = bd.beatmap_id
   JOIN simple_beatmap_diff bdiff on s.beatmap_id = bdiff.beatmap_id and (s.enabled_mods & 338) = bdiff.mods
   ORDER BY ud.user_pp  desc, ud.user_id, rank_pos
