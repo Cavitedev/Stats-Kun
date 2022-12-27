@@ -1,4 +1,4 @@
-name: Load osu players data and upload to stats calculation sheet
+name: Load osu players data and build users.json to later upload it to a google sheet
 
 on:
   workflow_dispatch:
