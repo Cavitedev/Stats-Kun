@@ -71,8 +71,8 @@ jobs:
         with:
           author_name: Cavitedev_action
           author_email: carlosvillorat@gmail.com
-          message: "${NOW} Update users.json"
-          tag: "${NOW}"
+          message: "${{env.NOW}} Update users.json"
+          tag: "${{env.NOW}}"
       
 
 
