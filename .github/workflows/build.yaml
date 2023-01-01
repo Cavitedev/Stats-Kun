@@ -6,11 +6,33 @@ on:
     - cron: "23 12 1,2 * *"
 
 jobs:
+  check_tag:
+    environment: release
+    runs-on: ubuntu-latest
+    outputs:
+      NOW: "${{env.NOW}}"
+      tag_exists: "${{ steps.checkTag.outputs.exists }}"
+    steps:
+      - run: echo "NOW=$(date +"%Y_%m")"
+      - name: Store date and month for fetching current data
+        run: echo "NOW=$(date +"%Y_%m")" >> $GITHUB_ENV
+      - name: Display current date
+        run: echo "${{env.NOW}}"
+      - name: Check if tag with current month exists
+        uses: mukunku/tag-exists-action@v1.2.0
+        id: checkTag
+        with: 
+          tag: "${{env.NOW}}"
+      - name: Does tag exist    
+        run: echo ${{ steps.checkTag.outputs.exists }}
   build_stats:
+    needs: check_tag
     environment: release
     runs-on: ubuntu-latest
     env:
       Env: ${{ secrets.ENV }}
+      NOW: ${{needs.check_tag.outputs.NOW}}
+    if: needs.check_tag.outputs.tag_exists == true
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
@@ -20,11 +42,7 @@ jobs:
         uses: falti/dotenv-action@v1.0.2
         with:
           mask-variables: false
-      - run: echo "NOW=$(date +"%Y_%m")"
-      - name: Store date and month for fetching current data
-        run: echo "NOW=$(date +"%Y_%m")" >> $GITHUB_ENV
-      - name: Display current date
-        run: echo "${{env.NOW}}"
+      
 
       - name: actions-setup-mariadb
         uses: shogo82148/actions-setup-mysql@v1.14.1
