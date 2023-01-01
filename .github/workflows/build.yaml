@@ -13,7 +13,6 @@ jobs:
       NOW: ${{env.NOW}}
       tag_exists: ${{ steps.checkTag.outputs.exists }}
     steps:
-      - run: echo "NOW=$(date +"%Y_%m")"
       - name: Store date and month for fetching current data
         run: echo "NOW=$(date +"%Y_%m")" >> $GITHUB_ENV
       - name: Display current date
@@ -32,7 +31,7 @@ jobs:
     env:
       Env: ${{ secrets.ENV }}
       NOW: ${{needs.check_tag.outputs.NOW}}
-    if: needs.check_tag.outputs.tag_exists == 'true'
+    if: needs.check_tag.outputs.tag_exists == 'false'
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
@@ -42,8 +41,6 @@ jobs:
         uses: falti/dotenv-action@v1.0.2
         with:
           mask-variables: false
-      
-
       - name: actions-setup-mariadb
         uses: shogo82148/actions-setup-mysql@v1.14.1
         with:
