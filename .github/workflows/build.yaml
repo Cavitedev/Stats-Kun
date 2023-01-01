@@ -51,6 +51,7 @@ jobs:
             innodb_log_file_size=128MB
             innodb-page-size=32768
             innodb_buffer_pool_size=2GB
+            innodb_read_IO_threads=8
             innodb_write_io_threads=4
             innodb_flush_log_at_trx_commit=0
       - name: Create database
