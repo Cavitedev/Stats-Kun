@@ -10,8 +10,8 @@ jobs:
     environment: release
     runs-on: ubuntu-latest
     outputs:
-      NOW: "${{env.NOW}}"
-      tag_exists: "${{ steps.checkTag.outputs.exists }}"
+      NOW: ${{env.NOW}}
+      tag_exists: ${{ steps.checkTag.outputs.exists }}
     steps:
       - run: echo "NOW=$(date +"%Y_%m")"
       - name: Store date and month for fetching current data
