@@ -3,7 +3,7 @@ name: Load osu players data and build users.json to later upload it to a google 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "21 12 1 * *"
+    - cron: "21 08 1 * *"
 
 jobs:
   build_stats:
