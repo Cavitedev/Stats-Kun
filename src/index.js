@@ -55,12 +55,10 @@ con.connect(function (err) {
         // Add score
         scoreData = {
           ar: row.ar,
-          bpm: row.bpm,
+          b_id: row.beatmap_id,
           cs: row.cs,
           mods: row.enabled_mods,
           h_len: row.hit_length,
-          hp: row.hp,
-          od: row.od,
           pp: row.pp,
           rank: row.rank_pos,
           sr: row.sr,
