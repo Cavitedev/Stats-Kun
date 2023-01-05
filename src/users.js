@@ -10,9 +10,7 @@ function processUsersData(data) {
     let pp = userData.pp;
     let acc = `${userData.acc.toFixed(2)}%`;
 
-    let countryData = countryUtils.getDataFromCountryCode(
-      userData.country_acronym
-    );
+    let countryData = countryUtils.getDataFromCountryCode(userData.country);
     let countryName = `${countryData.emoji} (${countryData.name})`;
 
     for (var play of userData.scores) {
@@ -22,7 +20,7 @@ function processUsersData(data) {
       // Beatmap stats
       var ar = play.ar;
       var cs = play.cs;
-      var length = play.hit_length;
+      var length = play.h_len;
 
       let arMs;
 
@@ -83,7 +81,7 @@ function processUsersData(data) {
       Number(
         utils.getWeightedValue(
           userData.scores
-            .map((play) => play.hit_length)
+            .map((play) => play.h_len)
             .filter((hit_length) => hit_length)
         )
       ) / 86400;

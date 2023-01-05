@@ -43,10 +43,10 @@ con.connect(function (err) {
           userData = {
             user_id: row.user_id,
             username: row.username,
-            globalRank: row.rank_score_index,
+            rank: row.rank_score_index,
             pp: row.user_pp,
             acc: row.accuracy,
-            country_acronym: row.country_acronym,
+            country: row.country_acronym,
           };
 
           user_id = row.user_id;
@@ -58,11 +58,11 @@ con.connect(function (err) {
           bpm: row.bpm,
           cs: row.cs,
           mods: row.enabled_mods,
-          hit_length: row.hit_length,
+          h_len: row.hit_length,
           hp: row.hp,
           od: row.od,
           pp: row.pp,
-          rank_score: row.rank_pos,
+          rank: row.rank_pos,
           sr: row.sr,
         };
 
@@ -78,7 +78,9 @@ con.connect(function (err) {
       //Last player
       userData.scores = scoresData;
       usersData.push(userData);
-
+      let top100Json = JSON.stringify(usersData);
+      let fs = require("fs");
+      fs.writeFile("top100.json", top100Json, "utf-8", function (err) {});
       // console.log(usersData);
 
       const filteredData = users.processUsersData(usersData);
@@ -95,11 +97,11 @@ con.connect(function (err) {
           new Date(time_exec - time_start).toISOString().slice(14, 19)
       );
 
-      con.end(function(err) {
+      con.end(function (err) {
         if (err) {
-          return console.log('error:' + err.message);
+          return console.log("error:" + err.message);
         }
-        console.log('Close the database connection.');
+        console.log("Close the database connection.");
       });
 
       // let jsonString = JSON.stringify(usersData);
