@@ -59,7 +59,7 @@ function processUsersData(data) {
 
       play.ar = ar;
       play.cs = cs;
-      play.hit_length = length;
+      play.h_len = length;
     }
 
     let weightedSR = utils.getWeightedValue(
@@ -80,9 +80,7 @@ function processUsersData(data) {
     let weightedLength =
       Number(
         utils.getWeightedValue(
-          userData.scores
-            .map((play) => play.h_len)
-            .filter((hit_length) => hit_length)
+          userData.scores.map((play) => play.h_len).filter((h_len) => h_len)
         )
       ) / 86400;
 
