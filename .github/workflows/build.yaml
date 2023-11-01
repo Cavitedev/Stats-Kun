@@ -34,15 +34,15 @@ jobs:
     if: needs.check_tag.outputs.tag_exists == 'false'
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.1
       - name: Create .env file
         run: echo "$Env" | base64 -d > ./.env
       - name: Dotenv Action
-        uses: falti/dotenv-action@v1.0.2
+        uses: falti/dotenv-action@v1.0.4
         with:
           mask-variables: false
       - name: actions-setup-mariadb
-        uses: shogo82148/actions-setup-mysql@v1.14.1
+        uses: shogo82148/actions-setup-mysql@v1.26.0
         with:
           mysql-version: 10.9
           distribution: mariadb
@@ -82,7 +82,7 @@ jobs:
       - name: Structure database for later querying
         run: mysql -h 127.0.0.1 -uroot  -ppassword -D osu -e "source queries/queries.sql"
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Install dependencies
