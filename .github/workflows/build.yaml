@@ -70,6 +70,8 @@ jobs:
         run: tar -xvf data/ctb.tar -C data/ctb --strip-components=1
       - name: Replace collate in sql due to incompatibility with mariaDB
         run: sed -i "s/COLLATE=utf8mb4_0900_ai_ci//g" data/ctb/sample_users.sql
+      - name: Delete compressed row due to another incompatiblity with mariaDB
+        run: sed -i "s/ROW_FORMAT=COMPRESSED//g" data/ctb/osu_beatmap_difficulty_attribs.sql
       - name: Import tables
         run: mysql -h 127.0.0.1 -uroot  -ppassword -D osu -e "SET autocommit=0;"
       - run: mysql -h 127.0.0.1 -uroot  -ppassword -D osu -e "source data/ctb/sample_users.sql"
