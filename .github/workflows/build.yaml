@@ -2,6 +2,11 @@ name: Load osu players data and build users.json to later upload it to a google 
 
 on:
   workflow_dispatch:
+    inputs:
+      isForce:
+        description: Forcefully update even if it exists
+        type: boolean
+        default: false
   schedule:
     - cron: "23 12 1,2 * *"
 
@@ -31,7 +36,7 @@ jobs:
     env:
       Env: ${{ secrets.ENV }}
       NOW: ${{needs.check_tag.outputs.NOW}}
-    if: needs.check_tag.outputs.tag_exists == 'false'
+    if: inputs.isForce || needs.check_tag.outputs.tag_exists == 'false'
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4.1.1
