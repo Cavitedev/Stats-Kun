@@ -29,12 +29,9 @@ con.connect(function (err) {
       let user_id = 0;
       let userData = {};
       let scoresData = [];
-      let csScores = []
-      let userIndex = 0
+
       for (var i = 0; i < result.length; i++) {
-        let row = 
-        result[i];
-        
+        let row = result[i];
         if (user_id != row.user_id) {
           if (user_id != 0) {
             // No first user
@@ -43,8 +40,6 @@ con.connect(function (err) {
           }
 
           // New user
-          
-
           userData = {
             user_id: row.user_id,
             username: row.username,
@@ -55,24 +50,20 @@ con.connect(function (err) {
           };
 
           user_id = row.user_id;
-
-          userIndex = 0
-          csScores = result.filter(r => r.user_id == user_id).sort((a, b) => b.cs - a.cs).map(r => r.cs)
-
           scoresData = [];
         }
         // Add score
         scoreData = {
           ar: row.ar,
           b_id: row.beatmap_id,
-          cs: csScores[userIndex],
+          cs: row.cs,
           mods: row.enabled_mods,
           h_len: row.hit_length,
           pp: row.pp,
           rank: row.rank_pos,
           sr: row.sr,
         };
-        userIndex++
+
         scoresData.push(scoreData);
       }
 
