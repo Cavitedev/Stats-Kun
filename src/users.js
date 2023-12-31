@@ -74,15 +74,19 @@ function processUsersData(data) {
         .sort((a, b) => b - a)
         .filter((ar) => ar)
     );
-    let weightedCS = utils.getWeightedValue(
-      userData.scores.map((play) => play.cs).filter((cs) => cs)
-    );
+
     let weightedLength =
       Number(
         utils.getWeightedValue(
           userData.scores.map((play) => play.h_len).filter((h_len) => h_len)
         )
       ) / 86400;
+
+    userData.scores.sort((a, b) => b.cs - a.cs)
+
+    let weightedCS = utils.getWeightedValue(
+      userData.scores.map((play) => play.cs).filter((cs) => cs)
+    );
 
     var summaryUserData = {
       username: userData.username,
