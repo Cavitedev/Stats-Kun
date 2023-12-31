@@ -44,7 +44,7 @@ jobs:
           github_token: "${{secrets.GITHUB_TOKEN}}"
           
   build_stats:
-    needs: delete_tag
+    needs: check_tag
     environment: release
     runs-on: ubuntu-latest
     env:
