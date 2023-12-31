@@ -33,7 +33,9 @@ jobs:
     needs: check_tag
     environment: release
     runs-on: ubuntu-latest
-    if: inputs.isForce 
+    env:
+      NOW: ${{needs.check_tag.outputs.NOW}}
+    if: inputs.isForce
     steps:
       - name: Delete tag and release
         uses: dev-drprasad/delete-tag-and-release@v1.0.1
