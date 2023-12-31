@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       isForce:
-        description: Forcefully update even if it exists
+        description: Force update?
         type: boolean
         default: false
   schedule:
