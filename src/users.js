@@ -21,6 +21,7 @@ function processUsersData(data) {
       var ar = play.ar;
       var cs = play.cs;
       var length = play.h_len;
+      let staminaVariable = play.h_len;
 
       let arMs;
 
@@ -36,20 +37,25 @@ function processUsersData(data) {
 
       arMs = utils.arToMs(ar);
 
-      if (mods.includes("DT") && !mods.includes("FL")) {
-        arMs *= 0.6666666667;
+      if (mods.includes("DT")) {
+
         length = length / 1.5;
+        staminaVariable = staminaVariable / 0.75;
+        if(!mods.includes("FL")){
+          arMs *= 0.6666666667;
+        }
+        
       }
 
       if (mods.includes("HT")) {
         arMs *= 1.3333333333333333;
         length = length / 0.75;
+        staminaVariable = staminaVariable / 1.5
       }
 
       if (mods.includes("FL")) {
         if (mods.includes("DT")) {
           arMs *= 8 / 15;
-          length = length / 1.5;
         } else {
           arMs *= 4 / 5;
         }
@@ -60,6 +66,8 @@ function processUsersData(data) {
       play.ar = ar;
       play.cs = cs;
       play.h_len = length;
+      play.sta = staminaVariable;
+      play.h
     }
 
     let weightedSR = utils.getWeightedValue(
@@ -82,6 +90,14 @@ function processUsersData(data) {
         )
       ) / 86400;
 
+
+      let stamina =
+      Number(
+        utils.getWeightedValue(
+          userData.scores.map((play) => play.sta).filter((h_len) => h_len)
+        )
+      ) / 86400;
+
     userData.scores.sort((a, b) => b.cs - a.cs)
 
     let weightedCS = utils.getWeightedValue(
@@ -97,6 +113,7 @@ function processUsersData(data) {
       weightedAR: weightedAR,
       weightedCS: weightedCS,
       weightedLength: weightedLength,
+      staminaVariable: stamina,
       country: countryName,
     };
 
