@@ -93,6 +93,8 @@ jobs:
         run: bzip2 -d data/ctb.tar.bz2
       - name: Extract data
         run: tar -xvf data/ctb.tar -C data/ctb --strip-components=1
+      - name: Delete scores file
+        run: rm data/ctb/scores.sql
       - name: Replace collate in sql due to incompatibility with mariaDB
         run: sed -i "s/COLLATE=utf8mb4_0900_ai_ci//g" data/ctb/sample_users.sql
       - name: Delete compressed row due to another incompatiblity with mariaDB
