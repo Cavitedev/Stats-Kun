@@ -8,7 +8,7 @@ on:
         type: boolean
         default: false
   schedule:
-    - cron: "23 12 1,2 * *"
+    - cron: "23 12 1,2,5 * *"
 
 jobs:
   check_tag:
@@ -16,10 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       NOW: ${{env.NOW}}
+      DAY: ${{env.DAY}}
       tag_exists: ${{ steps.checkTag.outputs.exists }}
     steps:
       - name: Store date and month for fetching current data
         run: echo "NOW=$(date +"%Y_%m")" >> $GITHUB_ENV
+      - name: Store current day for fetching data without using that on the tag
+        run: echo "DAY=$(date +"%d")" >> $GITHUB_ENV
       - name: Display current date
         run: echo "${{env.NOW}}"
       - name: Check if tag with current month exists
@@ -50,6 +53,7 @@ jobs:
     env:
       Env: ${{ secrets.ENV }}
       NOW: ${{needs.check_tag.outputs.NOW}}
+      DAY: ${{needs.check_tag.outputs.DAY}}
     if: inputs.isForce || needs.check_tag.outputs.tag_exists == 'false'
     steps:
       - name: Checkout the code
@@ -80,7 +84,7 @@ jobs:
       - name: Create data dir
         run: mkdir -p data/ctb
       - name: Loading data
-        run: curl "https://data.ppy.sh/${{env.NOW}}_01_performance_catch_top_10000.tar.bz2" -o data/ctb.tar.bz2
+        run: curl "https://data.ppy.sh/${{env.NOW}}_${{env.DAY}}_performance_catch_top_10000.tar.bz2" -o data/ctb.tar.bz2
       - name: Install dependency to unzip
         run: sudo apt install bzip2 -y
       - name: Unzip data
