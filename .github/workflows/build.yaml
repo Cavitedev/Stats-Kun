@@ -65,18 +65,20 @@ jobs:
         with:
           mask-variables: false
       - name: actions-setup-mariadb
-        uses: shogo82148/actions-setup-mysql@v1.26.0
+        uses: shogo82148/actions-setup-mysql@v1.32.0
         with:
           mysql-version: 10.9
           distribution: mariadb
           root-password: password
           my-cnf: |
-            innodb_log_file_size=128MB
+            innodb_log_file_size=256MB
             innodb-page-size=32768
-            innodb_buffer_pool_size=4GB
+            innodb_buffer_pool_size=8GB
             innodb_read_IO_threads=8
             innodb_write_io_threads=4
             innodb_flush_log_at_trx_commit=0
+            tmp_table_size=2G
+            max_heap_table_size=2G
       - name: Create database
         run: mysql -h127.0.0.1 -uroot  -ppassword -e "CREATE DATABASE osu;"
       - name: show databases
