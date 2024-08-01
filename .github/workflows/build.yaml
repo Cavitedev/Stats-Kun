@@ -92,7 +92,7 @@ jobs:
       - name: Unzip data
         run: bzip2 -d data/ctb.tar.bz2
       - name: Extract data
-        run: tar -xvf data/ctb.tar -C data/ctb --strip-components=1
+        run: tar -xvf data/ctb.tar -C data/ctb --strip-components=1 --remove-files
       - name: Delete scores file
         run: rm data/ctb/scores.sql
       - name: Replace collate in sql due to incompatibility with mariaDB
