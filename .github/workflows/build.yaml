@@ -7,6 +7,10 @@ on:
         description: Force update?
         type: boolean
         default: false
+      day:
+        description: manual date
+        type: text
+        required: false 
   schedule:
     - cron: "23 12 1,2,5 * *"
 
@@ -21,7 +25,11 @@ jobs:
     steps:
       - name: Store date and month for fetching current data
         run: echo "NOW=$(date +"%Y_%m")" >> $GITHUB_ENV
+      - name: Export day of workflow if not null
+        if: inputs.day != ''
+        run: echo "DAY=${{github.event.inputs.day}}" >> $GITHUB_ENV
       - name: Store current day for fetching data without using that on the tag
+        if: inputs.day == ''
         run: echo "DAY=$(date +"%d")" >> $GITHUB_ENV
       - name: Display current date
         run: echo "${{env.NOW}}"
