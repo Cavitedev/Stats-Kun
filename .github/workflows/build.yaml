@@ -12,7 +12,7 @@ on:
         type: text
         required: false 
   schedule:
-    - cron: "23 12 1,2,5 * *"
+    - cron: "23 14 1,2,5 * *"
 
 jobs:
   check_tag:
